@@ -1,6 +1,9 @@
 import {
+  BeverageNotFoundException,
+  InsufficientCashForBeverageException,
   InvalidDenominationException,
   NegativeAmountException,
+  OutOfStockBeverageException,
 } from "@exceptions";
 import { beforeEach, describe, expect, it } from "vitest";
 import { VendingMachine } from "../models/vendingMachine";
@@ -64,6 +67,69 @@ describe("VendingMachine class", () => {
   describe("getState method", () => {
     it("should return the initial state as 'on-sale'", () => {
       expect(vendingMachine.getState().id).toBe("on-sale");
+    });
+  });
+
+  beforeEach(() => {
+    vendingMachine.beverages = [
+      {
+        id: "1",
+        isAvailable: true,
+        icon: "",
+        name: "Coke",
+        price: 1000,
+        stock: 5,
+      },
+      {
+        id: "2",
+        isAvailable: true,
+        icon: "",
+        name: "Pepsi",
+        price: 1500,
+        stock: 0,
+      },
+    ];
+  });
+
+  describe("dispenseBeverage method", () => {
+    it("should dispense a beverage if all conditions are met", () => {
+      vendingMachine.insertCash(1000);
+      vendingMachine.insertCash(1000);
+
+      const previousStock = vendingMachine.beverages[0].stock;
+      const beverage = vendingMachine.dispenseBeverage(
+        vendingMachine.beverages[0].id
+      );
+
+      expect(beverage.name).toBe(vendingMachine.beverages[0].name);
+      expect(beverage.stock).toBe(previousStock - 1);
+      expect(vendingMachine.getInsertedCash()).toBe(1000);
+    });
+
+    it("should throw BeverageNotFoundException for invalid beverageId", () => {
+      vendingMachine.insertCash(1000);
+      vendingMachine.insertCash(1000);
+
+      expect(() => vendingMachine.dispenseBeverage("99")).toThrowError(
+        BeverageNotFoundException
+      );
+    });
+
+    it("should throw OutOfStockBeverageException if beverage is out of stock", () => {
+      vendingMachine.insertCash(1000);
+      vendingMachine.insertCash(1000);
+
+      expect(() => vendingMachine.dispenseBeverage("2")).toThrowError(
+        OutOfStockBeverageException
+      );
+    });
+
+    it("should throw InsufficientCashForBeverageException if inserted cash is insufficient", () => {
+      vendingMachine.insertCash(500);
+
+      expect(() =>
+        vendingMachine.dispenseBeverage(vendingMachine.beverages[0].id)
+      ).toThrowError(InsufficientCashForBeverageException);
     });
   });
 });

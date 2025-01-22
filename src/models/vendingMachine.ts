@@ -1,6 +1,9 @@
 import {
+  BeverageNotFoundException,
+  InsufficientCashForBeverageException,
   InvalidDenominationException,
   NegativeAmountException,
+  OutOfStockBeverageException,
 } from "@exceptions";
 import { Denomination, KRW_DENOMINATIONS } from "../constants/denomination";
 import { Beverage, beverages } from "./beverage";
@@ -40,6 +43,35 @@ export class VendingMachine {
 
   public getState(): VendingMachineState {
     return this.state;
+  }
+
+  public dispenseBeverage(beverageId: string): Beverage {
+    const beverage = this.beverages.find((bev) => bev.id === beverageId);
+
+    if (!beverage) {
+      throw new BeverageNotFoundException(beverageId);
+    }
+
+    this.validateBeverage(beverage);
+    this.checkCash(beverage);
+
+    this.insertedCash -= beverage.price;
+    beverage.stock--;
+    this.updateState();
+
+    return beverage;
+  }
+
+  private validateBeverage(beverage: Beverage) {
+    if (beverage.stock <= 0) {
+      throw new OutOfStockBeverageException(beverage.name);
+    }
+  }
+
+  private checkCash(beverage: Beverage) {
+    if (this.insertedCash < beverage.price) {
+      throw new InsufficientCashForBeverageException(beverage);
+    }
   }
 
   private updateState(): void {
