@@ -117,6 +117,10 @@ export class VendingMachine {
     } else {
       this.state = states.onSale;
 
+      if (totalStock <= 5) {
+        this.state = states.lowStock;
+      }
+
       if (this.insertedCash > 0 || this.paymentMethod === "card") {
         this.state = states.pending;
       }
