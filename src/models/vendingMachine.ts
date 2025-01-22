@@ -15,7 +15,7 @@ export class VendingMachine {
   private insertedCash: number;
 
   constructor() {
-    this.state = states["on-sale"];
+    this.state = states.onSale;
     this.beverages = beverages;
     this.insertedCash = 0;
   }
@@ -76,7 +76,7 @@ export class VendingMachine {
 
   private updateState(): void {
     if (this.insertedCash > 0) {
-      this.state = states["pending"];
+        this.state = states.pending;
     }
   }
 }

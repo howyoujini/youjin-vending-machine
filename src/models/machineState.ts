@@ -4,6 +4,6 @@ export interface VendingMachineState {
 }
 
 export const states: Record<string, VendingMachineState> = {
-  "on-sale": { id: "on-sale", displayName: "On Sale" },
+  onSale: { id: "on-sale", displayName: "On Sale" },
   pending: { id: "pending", displayName: "Pending" },
 } as const;
