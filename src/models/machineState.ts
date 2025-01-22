@@ -5,7 +5,10 @@ export interface VendingMachineState {
 
 export const states: Record<string, VendingMachineState> = {
   onSale: { id: "on-sale", displayName: "On Sale" },
-  pending: { id: "pending", displayName: "Pending" },
+  awaitingSelection: {
+    id: "awaiting-selection",
+    displayName: "Awaiting Selection",
+  },
   lowStock: { id: "low-stock", displayName: "Low Stock" },
   soldOut: { id: "sold-out", displayName: "Sold Out" },
 } as const;

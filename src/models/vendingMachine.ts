@@ -118,7 +118,7 @@ export class VendingMachine {
       }
 
       if (this.insertedCash > 0 || this.paymentMethod === "card") {
-        this.state = states.pending;
+        this.state = states.awaitingSelection;
       }
     }
   }

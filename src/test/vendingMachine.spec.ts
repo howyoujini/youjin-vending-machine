@@ -39,7 +39,7 @@ describe("VendingMachine class", () => {
       const afterState = vendingMachine.getState().id;
 
       expect(initialState).not.toEqual(afterState);
-      expect(afterState).toEqual("pending");
+      expect(afterState).toEqual("awaiting-selection");
     });
 
     it("should throw InvalidDenominationException for invalid denominations", () => {
@@ -94,7 +94,7 @@ describe("VendingMachine class", () => {
   describe("setPaymentMethod method", () => {
     it("should set the payment method correctly", () => {
       vendingMachine.setPaymentMethod("card");
-      expect(vendingMachine.getState().id).toBe("pending");
+      expect(vendingMachine.getState().id).toBe("awaiting-selection");
     });
   });
 
