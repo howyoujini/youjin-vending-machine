@@ -4,7 +4,7 @@ import {
   InvalidDenominationException,
   NegativeAmountException,
   OutOfStockBeverageException,
-} from "@exceptions";
+} from "../exceptions";
 import { Denomination, KRW_DENOMINATIONS } from "../constants/denomination";
 import { Beverage, beverages } from "./beverage";
 import { states, VendingMachineState } from "./machineState";

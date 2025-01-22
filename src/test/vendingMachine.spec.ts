@@ -4,7 +4,7 @@ import {
   InvalidDenominationException,
   NegativeAmountException,
   OutOfStockBeverageException,
-} from "@exceptions";
+} from "../exceptions";
 import { beforeEach, describe, expect, it } from "vitest";
 import { VendingMachine } from "../models/vendingMachine";
 
