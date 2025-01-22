@@ -106,6 +106,19 @@ describe("VendingMachine class", () => {
       expect(vendingMachine.getInsertedCash()).toBe(1000);
     });
 
+    it("should update vending machine state to sold out when out of stock", () => {
+      const initialStock = vendingMachine.beverages[0].stock;
+
+      for (let i = 0; i < initialStock; i++) {
+        vendingMachine.insertCash(vendingMachine.beverages[0].price);
+        vendingMachine.dispenseBeverage(vendingMachine.beverages[0].id);
+      }
+
+      const afterState = vendingMachine.getState().id;
+
+      expect(afterState).toBe("sold-out");
+    });
+
     it("should throw BeverageNotFoundException for invalid beverageId", () => {
       vendingMachine.insertCash(1000);
       vendingMachine.insertCash(1000);
@@ -130,6 +143,36 @@ describe("VendingMachine class", () => {
       expect(() =>
         vendingMachine.dispenseBeverage(vendingMachine.beverages[0].id)
       ).toThrowError(InsufficientCashForBeverageException);
+    });
+  });
+
+  describe("returnChange method", () => {
+    it("should return the total inserted cash and reset it to 0", () => {
+      vendingMachine.insertCash(1000);
+      vendingMachine.insertCash(500);
+
+      const change = vendingMachine.returnChange();
+
+      expect(change).toBe(1500);
+      expect(vendingMachine.getInsertedCash()).toBe(0);
+    });
+
+    it("should return 0 if no cash has been inserted", () => {
+      const change = vendingMachine.returnChange();
+
+      expect(change).toBe(0);
+      expect(vendingMachine.getInsertedCash()).toBe(0);
+    });
+
+    it("should change the state of the vending machine after returning change", () => {
+      vendingMachine.insertCash(1000);
+      const initialState = vendingMachine.getState().id;
+
+      vendingMachine.returnChange();
+      const afterState = vendingMachine.getState().id;
+
+      expect(initialState).not.toEqual(afterState);
+      expect(afterState).toBe("on-sale");
     });
   });
 });

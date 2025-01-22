@@ -74,9 +74,28 @@ export class VendingMachine {
     }
   }
 
+  public returnChange(): number {
+    const change = this.insertedCash;
+    this.insertedCash = 0;
+    this.updateState();
+
+    return change;
+  }
+
   private updateState(): void {
-    if (this.insertedCash > 0) {
+    const totalStock = this.beverages.reduce(
+      (total, drink) => total + drink.stock,
+      0
+    );
+
+    if (totalStock === 0) {
+      this.state = states.soldOut;
+    } else {
+      this.state = states.onSale;
+
+      if (this.insertedCash > 0) {
         this.state = states.pending;
+      }
     }
   }
 }
