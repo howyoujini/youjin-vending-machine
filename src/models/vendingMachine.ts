@@ -46,20 +46,32 @@ export class VendingMachine {
   }
 
   public dispenseBeverage(beverageId: string): Beverage {
-    const beverage = this.beverages.find((bev) => bev.id === beverageId);
-
-    if (!beverage) {
-      throw new BeverageNotFoundException(beverageId);
-    }
+    const beverage = this.getBeverageById(beverageId);
 
     this.validateBeverage(beverage);
-    this.checkCash(beverage);
 
-    this.insertedCash -= beverage.price;
-    beverage.stock--;
+    this.processCashPayment(beverage);
+    this.reduceStock(beverage);
     this.updateState();
 
     return beverage;
+  }
+
+  private getBeverageById(beverageId: string): Beverage {
+    const beverage = this.beverages.find((bev) => bev.id === beverageId);
+    if (!beverage) {
+      throw new BeverageNotFoundException(beverageId);
+    }
+    return beverage;
+  }
+
+  private processCashPayment(beverage: Beverage): void {
+    this.checkCash(beverage);
+    this.insertedCash -= beverage.price;
+  }
+
+  private reduceStock(beverage: Beverage): void {
+    beverage.stock--;
   }
 
   private validateBeverage(beverage: Beverage) {
