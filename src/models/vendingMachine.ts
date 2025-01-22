@@ -36,10 +36,6 @@ export class VendingMachine {
       throw new InvalidDenominationException(amount);
     }
 
-    if (amount <= 0) {
-      throw new NegativeAmountException();
-    }
-
     this.insertedCash += amount;
     this.updateState();
   }

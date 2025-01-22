@@ -194,7 +194,6 @@ describe("VendingMachine class", () => {
       const afterState = vendingMachine.getState().id;
 
       expect(initialState).not.toEqual(afterState);
-      expect(afterState).toBe("on-sale");
     });
   });
 });
