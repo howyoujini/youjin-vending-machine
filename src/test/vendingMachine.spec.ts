@@ -91,6 +91,13 @@ describe("VendingMachine class", () => {
     ];
   });
 
+  describe("setPaymentMethod method", () => {
+    it("should set the payment method correctly", () => {
+      vendingMachine.setPaymentMethod("card");
+      expect(vendingMachine.getState().id).toBe("pending");
+    });
+  });
+
   describe("dispenseBeverage method", () => {
     it("should dispense a beverage if all conditions are met", () => {
       vendingMachine.insertCash(1000);
@@ -104,6 +111,21 @@ describe("VendingMachine class", () => {
       expect(beverage.name).toBe(vendingMachine.beverages[0].name);
       expect(beverage.stock).toBe(previousStock - 1);
       expect(vendingMachine.getInsertedCash()).toBe(1000);
+    });
+
+    it("should not affect the inserted cash when payment method is card", () => {
+      vendingMachine.insertCash(1000);
+      vendingMachine.insertCash(1000);
+
+      const previousStock = vendingMachine.beverages[0].stock;
+
+      vendingMachine.setPaymentMethod("card");
+      const beverage = vendingMachine.dispenseBeverage(
+        vendingMachine.beverages[0].id
+      );
+
+      expect(beverage.stock).toBe(previousStock - 1);
+      expect(vendingMachine.getInsertedCash()).toBe(2000);
     });
 
     it("should update vending machine state to sold out when out of stock", () => {

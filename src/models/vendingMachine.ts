@@ -8,19 +8,22 @@ import {
 import { Denomination, KRW_DENOMINATIONS } from "../constants/denomination";
 import { Beverage, beverages } from "./beverage";
 import { states, VendingMachineState } from "./machineState";
+import { PaymentMethod } from "./paymentMethod";
 
 export class VendingMachine {
   private state: VendingMachineState;
   beverages: Beverage[];
   private insertedCash: number;
+  private paymentMethod: PaymentMethod;
 
   constructor() {
     this.state = states.onSale;
     this.beverages = beverages;
     this.insertedCash = 0;
+    this.paymentMethod = "none";
   }
 
-  public getInsertedCash() {
+  public getInsertedCash(): number {
     return this.insertedCash;
   }
 
@@ -45,13 +48,22 @@ export class VendingMachine {
     return this.state;
   }
 
+  public setPaymentMethod(paymentMethod: PaymentMethod): void {
+    this.paymentMethod = paymentMethod;
+    this.updateState();
+  }
+
   public dispenseBeverage(beverageId: string): Beverage {
     const beverage = this.getBeverageById(beverageId);
 
     this.validateBeverage(beverage);
 
-    this.processCashPayment(beverage);
+    if (this.paymentMethod !== "card") {
+      this.processCashPayment(beverage);
+    }
+
     this.reduceStock(beverage);
+
     this.updateState();
 
     return beverage;
@@ -74,13 +86,13 @@ export class VendingMachine {
     beverage.stock--;
   }
 
-  private validateBeverage(beverage: Beverage) {
+  private validateBeverage(beverage: Beverage): void {
     if (beverage.stock <= 0) {
       throw new OutOfStockBeverageException(beverage.name);
     }
   }
 
-  private checkCash(beverage: Beverage) {
+  private checkCash(beverage: Beverage): void {
     if (this.insertedCash < beverage.price) {
       throw new InsufficientCashForBeverageException(beverage);
     }
@@ -105,7 +117,7 @@ export class VendingMachine {
     } else {
       this.state = states.onSale;
 
-      if (this.insertedCash > 0) {
+      if (this.insertedCash > 0 || this.paymentMethod === "card") {
         this.state = states.pending;
       }
     }
