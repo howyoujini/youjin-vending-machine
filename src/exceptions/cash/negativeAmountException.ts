@@ -1,4 +1,4 @@
-import { CustomBusinessException } from "./customBusinessException";
+import { CustomBusinessException } from "../customBusinessException";
 
 /**
  * Exception for handling cases where a negative cash amount is inserted,

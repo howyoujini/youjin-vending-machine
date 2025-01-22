@@ -1,4 +1,4 @@
-import { CustomBusinessException } from "./customBusinessException";
+import { CustomBusinessException } from "../customBusinessException";
 
 /**
  * Exception thrown when the requested beverage is not found in the vending machine.

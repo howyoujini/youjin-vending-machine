@@ -1,5 +1,5 @@
-import { Beverage } from "../models/beverage";
-import { CustomBusinessException } from "./customBusinessException";
+import { Beverage } from "../../models/beverage";
+import { CustomBusinessException } from "../customBusinessException";
 
 /**
  * Exception thrown when the user does not have enough cash to purchase a selected beverage.

@@ -1,4 +1,4 @@
-import { CustomBusinessException } from "./customBusinessException";
+import { CustomBusinessException } from "../customBusinessException";
 
 /**
  * Exception thrown when a requested beverage is out of stock.

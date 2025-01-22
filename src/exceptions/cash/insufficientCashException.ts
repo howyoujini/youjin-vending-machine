@@ -1,4 +1,4 @@
-import { CustomBusinessException } from "./customBusinessException";
+import { CustomBusinessException } from "../customBusinessException";
 
 /**
  * Exception for handling cases where the user does not have enough cash to complete a transaction,

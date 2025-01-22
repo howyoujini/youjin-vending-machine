@@ -1,4 +1,4 @@
-import { CustomBusinessException } from "./customBusinessException";
+import { CustomBusinessException } from "../customBusinessException";
 
 /**
  * Exception for invalid currency denominations when a user inserts an invalid denomination into a vending machine, extending the `CustomBusinessException` class.
