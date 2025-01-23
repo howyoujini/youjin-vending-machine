@@ -20,7 +20,7 @@ export class User {
   }
 
   getPaymentMethod(): PaymentMethod {
-    return this.paymentMethod ?? "none";
+    return this.paymentMethod;
   }
 
   payWithCash(amount: number): void {
