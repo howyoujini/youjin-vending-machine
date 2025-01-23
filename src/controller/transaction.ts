@@ -3,6 +3,7 @@ import { CustomBusinessException } from "../exceptions";
 import { VendingMachineState } from "../models/machineState";
 import { User } from "../models/user";
 import { VendingMachine } from "../models/vendingMachine";
+import { updateUI } from "../ui";
 import { displayMessageUI } from "../ui/displayMessageUI";
 import { resetMessageUI } from "../ui/resetMessageUI";
 
@@ -80,5 +81,7 @@ export class TransactionController {
         displayMessageUI(error.message);
       }
     }
+
+    updateUI(this.vendingMachine, this.user);
   }
 }
