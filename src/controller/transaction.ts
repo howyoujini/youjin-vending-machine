@@ -24,6 +24,10 @@ export class TransactionController {
       if (beverage) {
         this.vendingMachine.setPaymentMethod(this.user.getPaymentMethod());
         this.vendingMachine.dispenseBeverage(beverage.id);
+
+        if (this.vendingMachine.getState().id === "sold-out") {
+          this.returnChangeFromMachine();
+        }
       }
     });
   }
@@ -32,6 +36,10 @@ export class TransactionController {
     this.updateView(() => {
       this.user.payWithCash(amount);
       this.vendingMachine.insertCash(amount);
+
+      if (this.vendingMachine.getState().id === "sold-out") {
+        this.returnChangeFromMachine();
+      }
     });
   }
 
