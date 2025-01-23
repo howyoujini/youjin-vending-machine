@@ -62,6 +62,90 @@ li {
   margin: 3em 2em 0 2em;
 }
 
+.state {
+  position: relative;
+  padding: 5px 15px 5px 30px;
+  border-radius: 30px;
+  text-align: center;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.state.on-sale {
+  color: #38dda3;
+}
+
+.state.awaiting-selection {
+  color: #01e0fd;
+}
+
+.state.insufficient-change,
+.state.low-stock {
+  color: #fdb101;
+}
+
+.state.sold-out,
+.state.payment-error {
+  color: #ff1515;
+}
+
+.state::before,
+.state::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.state.on-sale::before,
+.state.on-sale::after {
+  background-color: #38dda3;
+}
+
+.state.awaiting-selection::before,
+.state.awaiting-selection::after {
+  background-color: #01e0fd;
+}
+
+.state.insufficient-change::before,
+.state.insufficient-change::after,
+.state.low-stock::before,
+.state.low-stock::after {
+  background-color: #fdb101;
+}
+
+.state.sold-out::before,
+.state.sold-out::after,
+.state.payment-error::before,
+.state.payment-error::after {
+  background-color: #ff1515;
+}
+
+.state::after {
+  animation: radar-pulse 2s infinite;
+}
+
+@keyframes radar-pulse {
+  0% {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-50%) scale(2);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
 .message {
   height: 14px;
   color: #ff1515;
@@ -69,11 +153,40 @@ li {
   font-weight: 500;
 }
 
+.subheading {
+  margin: 1.5em 0 0 0;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(172, 172, 172);
+}
+
+.bold-content {
+  margin: 0;
+  font-size: larger;
+  font-weight: bold;
+}
+
 .beverage-wrapper {
   width: fit-content;
   height: fit-content;
   position: relative;
   display: inline-block;
+}
+
+.beverage-button .price {
+  font-weight: bold;
+  font-size: larger;
+  padding: 0.4em 1em;
+  border-radius: 30px;
+  color: #f9f9f9;
+  background-color: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  .beverage-button .price {
+    color: #1a1a1a;
+    background-color: #f9f9f9;
+  }
 }
 
 .beverage-wrapper .stock {

@@ -1,3 +1,4 @@
+import { Denomination } from "./constants/denomination";
 import { TransactionController } from "./controller/transaction";
 import { User } from "./models/user";
 import { VendingMachine } from "./models/vendingMachine";
@@ -18,6 +19,9 @@ app.innerHTML = `
     <h1>Vending Machine</h1>
     <p>Hey there! Select your drink – <b>Cola, Water, or Coffee</b> – with <b>KRW</b> only!</p>
     <p id="message" class="message"></p>
+    <p class="subheading">Inserted Cash</p>
+    <p id="inserted-payment" class="bold-content">${controller.getInsertedCash()} KRW</p>
+    <button id="return-change">Return Change</button>
     <div id="beverages">
       ${vendingMachine.beverages
         .map(
@@ -35,6 +39,8 @@ app.innerHTML = `
         .join("")}
     </div>
   </div>
+    <p class="subheading">Cash on hand</p>
+    <p id="cash-balance" class="bold-content">${controller.getUserCash()} KRW</p>
 `;
 
 export const beverageButtons = document.querySelectorAll<HTMLButtonElement>(
@@ -43,3 +49,17 @@ export const beverageButtons = document.querySelectorAll<HTMLButtonElement>(
 beverageButtons.forEach((button) => {
   button.addEventListener("click", () => controller.selectBeverage(button.id));
 });
+
+const cashButtons =
+  document.querySelectorAll<HTMLImageElement>("#cash-buttons img");
+cashButtons.forEach((button) => {
+  const amount = parseInt(button.id.replace("KRW", ""), 10);
+  button.addEventListener("click", () =>
+    controller.purchaseWithCash(amount as Denomination)
+  );
+});
+
+const returnChangeButton = document.getElementById("return-change")!;
+returnChangeButton.addEventListener("click", () =>
+  controller.returnChangeFromMachine()
+);
