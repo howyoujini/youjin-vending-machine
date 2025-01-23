@@ -269,3 +269,45 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.user {
+  width: 100%;
+  height: 50%;
+  background-color: #1a1a1a;
+  padding: 2em;
+  color: #f9f9f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  .user {
+    background-color: #f9f9f9;
+    color: #1a1a1a;
+  }
+}
+
+.payment {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  transform: translateY(280px);
+  cursor: pointer;
+}
+
+.payment .cash {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+}
+
+.payment .units {
+  transform: rotate(-30deg);
+  margin: 1.5em;
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+.payment .units:hover {
+  transform: scale(1.2) rotate(0deg) translateY(-250px);
+  filter: drop-shadow(0 0 30px #b7b7b7);
+  z-index: 9;
+}
