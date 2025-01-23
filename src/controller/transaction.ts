@@ -1,4 +1,4 @@
-import { Denomination } from "../constants/denomination";
+import { Denomination } from "../models/denomination";
 import { CustomBusinessException } from "../exceptions";
 import { VendingMachineState } from "../models/machineState";
 import { User } from "../models/user";

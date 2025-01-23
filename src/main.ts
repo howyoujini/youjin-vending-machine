@@ -1,4 +1,4 @@
-import { Denomination, KRW_DENOMINATIONS } from "./constants/denomination";
+import { Denomination, KRW_DENOMINATIONS } from "./models/denomination";
 import { TransactionController } from "./controller/transaction";
 import { User } from "./models/user";
 import { VendingMachine } from "./models/vendingMachine";
